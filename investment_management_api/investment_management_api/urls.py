@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from investment_accounts.views import InvestmentAccountViewSet, CustomerInvestmentAccountViewSet, TransactionViewSet
+from investment_accounts.views import InvestmentAccountViewSet, UserInvestmentAccountViewSet, TransactionViewSet
 from investment_accounts.admin_views import AdminViewSet
 
 # Registration of the four viewsets (AdminViewSet, TransactionViewSet, InvestmentAccountViewSet, CustomerInvestmentAccountViewSet) and set up of the routing URLs to be used to access the respective resources
@@ -25,7 +25,7 @@ router = DefaultRouter()
 router.register(r'admin', AdminViewSet, basename='admin')
 router.register(r'transactions', TransactionViewSet)
 router.register(r'investment-accounts', InvestmentAccountViewSet)
-router.register(r'customer-investment-accounts', CustomerInvestmentAccountViewSet)
+router.register(r'user-investment-accounts', UserInvestmentAccountViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

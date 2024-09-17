@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from .models import Customer, CustomerInvestmentAccount, InvestmentAccount, Transaction
+from .models import User, UserInvestmentAccount, InvestmentAccount, Transaction
 
 # Serializer setup for the Customer model
-class CustomerSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Customer
+        model = User
         fields = ['user_id', 'full_name', 'email_address', 'phone_number']
 
 # Serializer setup for the CustomerInvestmentAccount model
-class CustomerInvestmentAccountSerializer(serializers.ModelSerializer):
+class UserInvestmentAccountSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomerInvestmentAccount
-        fields = ['customer', 'investment_account', 'permission']
+        model = UserInvestmentAccount
+        fields = ['user', 'investment_account', 'permission']
 
 # Serializer setup for the InvestmentAccount model
 class InvestmentAccountSerializer(serializers.ModelSerializer):
@@ -23,4 +23,4 @@ class InvestmentAccountSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ['transaction_id', 'investment_account', 'customer', 'amount', 'date']
+        fields = ['transaction_id', 'investment_account', 'user', 'amount', 'date']
