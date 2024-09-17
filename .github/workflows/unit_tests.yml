@@ -1,0 +1,45 @@
+name: Investment_Account_Management
+
+on: [push, pull_request]
+
+jobs:
+  unit_tests_validation:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: investment_acc_mgmt
+          POSTGRES_USER: actservuser
+          POSTGRES_PASSWORD: actservpassword123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install django djangorestframework psycopg2-binary
+      working-directory: investment_management_api
+    - name: Set up database
+      run: |
+        python manage.py makemigrations
+        python manage.py migrate
+      working-directory: investment_management_api
+    - name: Run tests
+      env:
+        DATABASE_URL: postgres://actservuser:actservpassword123@localhost:5432/investment_acc_mgmt
+      run: |
+        python manage.py test
+      working-directory: investment_management_api
