@@ -5,7 +5,7 @@ from .models import User, UserInvestmentAccount, InvestmentAccount, Transaction
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['user_id', 'full_name', 'email_address', 'phone_number']
+        fields = ['user_id', 'full_name', 'email_address']
 
 # Serializer setup for the CustomerInvestmentAccount model
 class UserInvestmentAccountSerializer(serializers.ModelSerializer):
@@ -17,10 +17,10 @@ class UserInvestmentAccountSerializer(serializers.ModelSerializer):
 class InvestmentAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = InvestmentAccount
-        fields = ['investment_account_id', 'investment_account_name']
+        fields = ['id', 'investment_account_name']
 
 # Serializer setup for the Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ['transaction_id', 'investment_account', 'user', 'amount', 'date']
+        fields = ['id', 'investment_account', 'user', 'amount', 'date']

@@ -19,7 +19,27 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'create':
-            return [permissions.IsAuthenticated()]
+            # Check if the user has permission to create a transaction
+            account_id = self.request.data.get('investment_account')
+            permission = UserInvestmentAccount.objects.filter(
+                user=self.request.user,
+                investment_account_id=account_id
+            ).first()
+
+            if permission and permission.permission == 'crud':
+                return [permissions.IsAuthenticated()]
+            else:
+                return [permissions.IsAdminUser()]
         elif self.action in ['list', 'retrieve']:
             return [permissions.IsAuthenticated()]
         return [permissions.IsAdminUser()]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        account_id = self.request.data.get('investment_account')
+        permission = UserInvestmentAccount.objects.filter(user=user, investment_account_id=account_id).first()
+
+        if permission and permission.permission == 'crud':
+            serializer.save(user=user)
+        else:
+            self.permission_denied(self.request, message="You do not have permission to perform this action.")

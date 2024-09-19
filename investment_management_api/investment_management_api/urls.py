@@ -29,5 +29,5 @@ router.register(r'user-investment-accounts', UserInvestmentAccountViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('investment/', include(router.urls)),
+    path('api/', include(router.urls)),
 ]
